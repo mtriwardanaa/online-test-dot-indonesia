@@ -10,8 +10,8 @@ class CityApi extends Controller
 {
     public function search(SearchCity $request)
     {
-        $cityId = $request->get('city_id');
-        $city = City::where('city_id', $cityId)->firstOrFail();
+        $cityId = $request->get('id');
+        $city = City::with('province')->where('city_id', $cityId)->firstOrFail();
         return response()->json($city);
     }
 }

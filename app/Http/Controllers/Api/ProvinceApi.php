@@ -10,7 +10,7 @@ class ProvinceApi extends Controller
 {
     public function search(SearchProvice $request)
     {
-        $provinceId = $request->get('province_id');
+        $provinceId = $request->get('id');
         $province = Province::where('province_id', $provinceId)->firstOrFail();
         return response()->json($province);
     }

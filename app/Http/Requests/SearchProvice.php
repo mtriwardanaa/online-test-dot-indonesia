@@ -22,7 +22,7 @@ class SearchProvice extends FormRequest
     public function rules(): array
     {
         return [
-            'province_id' => 'required|exists:provinces,province_id',
+            'id' => 'required|exists:provinces,province_id',
         ];
     }
 }
