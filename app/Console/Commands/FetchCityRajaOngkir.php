@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Events\CityFetched;
+use App\Helper\HttpClient\RajaOngkir;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 
 class FetchCityRajaOngkir extends Command
 {
@@ -25,25 +25,16 @@ class FetchCityRajaOngkir extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(RajaOngkir $rajaOngkir): void
     {
-        $urlRajaOngkir = config('rajaongkir.base_url') . '/city';
-        $apiKeyRajaOngkir = config('rajaongkir.api_key');
-
-        $fetchCity = Http::withHeaders([
-            'key' => $apiKeyRajaOngkir,
-        ])->get($urlRajaOngkir);
-        if ($fetchCity->failed()) {
-            $message = $fetchCity->json()['rajaongkir']['status']['description'] ?? 'Something went wrong!!!';
-            $this->info($message);
+        $fetchCity = $rajaOngkir->fetchCity(null);
+        if ($fetchCity['code'] != 200) {
+            $this->info($fetchCity['message']);
             return;
         }
 
-        if ($fetchCity->status() == 200 && $fetchCity->successful()) {
-            $result = $fetchCity->json();
-            $cities = $result['rajaongkir']['results'];
-            CityFetched::dispatch($cities);
-        }
+        $cities = $fetchCity['data'];
+        CityFetched::dispatch($cities);
 
         $this->info("fetching city from rajaongkir has been successful");
     }

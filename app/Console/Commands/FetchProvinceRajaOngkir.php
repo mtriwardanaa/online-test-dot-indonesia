@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Events\ProvinceFetched;
+use App\Helper\HttpClient\RajaOngkir;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 
 class FetchProvinceRajaOngkir extends Command
 {
@@ -25,25 +25,16 @@ class FetchProvinceRajaOngkir extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(RajaOngkir $rajaOngkir): void
     {
-        $urlRajaOngkir = config('rajaongkir.base_url') . '/province';
-        $apiKeyRajaOngkir = config('rajaongkir.api_key');
-
-        $fetchProvince = Http::withHeaders([
-            'key' => $apiKeyRajaOngkir,
-        ])->get($urlRajaOngkir);
-        if ($fetchProvince->failed()) {
-            $message = $fetchProvince->json()['rajaongkir']['status']['description'] ?? 'Something went wrong!!!';
-            $this->info($message);
+        $fetchProvince = $rajaOngkir->fetchProvince(null);
+        if ($fetchProvince['code'] != 200) {
+            $this->info($fetchProvince['message']);
             return;
         }
 
-        if ($fetchProvince->status() == 200 && $fetchProvince->successful()) {
-            $result = $fetchProvince->json();
-            $provinces = $result['rajaongkir']['results'];
-            ProvinceFetched::dispatch($provinces);
-        }
+        $provinces = $fetchProvince['data'];
+        ProvinceFetched::dispatch($provinces);
 
         $this->info("fetching province from rajaongkir has been successful");
     }
