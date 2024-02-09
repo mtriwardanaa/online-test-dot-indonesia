@@ -1,8 +1,12 @@
+## Requirement
+- php ^8.1
+- laravel 10
+
 ## Installation
 
 - clone github ``` git clone git@github.com:mtriwardanaa/online-test-dot-indonesia.git ```
-- ``` composer install ```
 - ``` cd online-test-dot-indonesia ```
+- ``` composer install ```
 - copy .env.example to .env
 - change some .env values
 

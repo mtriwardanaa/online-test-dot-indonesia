@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Helper\HttpClient\RajaOngkir;
 use App\Helper\SearchResource;
