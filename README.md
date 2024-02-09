@@ -30,6 +30,7 @@
 ```
 
 - ``` php artisan key:generate ```
+- make sure you have created a new database with the same name as that listed in the database env file
 - ``` php artisan migrate ```
 - if it's your first time deploying, run ``` php artisan db:seed ```
 - ```php artisan passport:keys```
