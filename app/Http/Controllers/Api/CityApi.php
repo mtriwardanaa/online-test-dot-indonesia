@@ -10,7 +10,7 @@ use App\Models\City;
 
 class CityApi extends Controller
 {
-    protected $searchResource;
+    public $searchResource;
     protected $rajaOngkir;
 
     public function __construct(

@@ -10,7 +10,7 @@ use App\Models\Province;
 
 class ProvinceApi extends Controller
 {
-    protected $searchResource;
+    public $searchResource;
     protected $rajaOngkir;
 
     public function __construct(

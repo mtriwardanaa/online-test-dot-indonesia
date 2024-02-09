@@ -19,8 +19,7 @@ class TokenApi extends PassportAccessTokenController
 
             return response()->json($data);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-            return response()->json($th->getMessage(), $th->getCode() != 0 ? $th->getCode() : 400);
+            return response()->json($th->getMessage(), 400);
         }
     }
 }
